@@ -38,13 +38,12 @@ jobs:
             # endGroup
           before_script: |
             startGroup "Install more dependencies"
-              sudo apt-get install --yes wabt
-              # TODO install via apt
-              # install node via https://github.com/nvm-sh/nvm
-              curl https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
-              export NVM_DIR="$HOME/.nvm"
-              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-              nvm install 22.1.0
+              sudo apt install --yes wabt curl
+              # Node in debian bookworm is too old, install via nodesource
+              # TODO once version 22 is in the standard debian repo, use that
+              sudo curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
+              sudo bash nodesource_setup.sh
+              sudo apt install -y nodejs
               node --version
             endGroup
             startGroup "fix permission issues"
